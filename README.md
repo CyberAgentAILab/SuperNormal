@@ -60,7 +60,14 @@ Some important hyperparameters are:
 ### Modifications to NerfAcc
 We add several functions to the original [NerfAcc](https://www.nerfacc.com) to adapt it to patch-based volume rendering.
 The key new functions (which are indicated by `patch_based` in function name) are in 
-`third_parties/nerfacc-0.3.5/nerfacc-0.3.5/nerfacc/cuda/csrc/render_weight.cu/` and `third_parties/nerfacc-0.3.5/nerfacc-0.3.5/nerfacc/vol_rendering.py`.
+[third_parties/nerfacc-0.3.5/nerfacc-0.3.5/nerfacc/cuda/csrc/render_weight.cu/](./third_parties/nerfacc-0.3.5/nerfacc-0.3.5/nerfacc/cuda/csrc/render_weight.cu) 
+and [third_parties/nerfacc-0.3.5/nerfacc-0.3.5/nerfacc/vol_rendering.py](./third_parties/nerfacc-0.3.5/nerfacc-0.3.5/nerfacc/vol_rendering.py).
+
+
+### Acknowledgement
+This repo is built up on [NeuS](https://github.com/Totoro97/NeuS) and benefits from the amazing [tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn) and [NerfAcc](https://www.nerfacc.com).
+We also learned a lot from [instant-nsr-pl](https://github.com/bennyguo/instant-nsr-pl).
+
 ### Citation
 If you find our work useful in your research, please consider citing:
 ```bibtex
