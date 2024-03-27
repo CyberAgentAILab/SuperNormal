@@ -25,26 +25,39 @@ Fast and fine-grained 3D reconstruction from multi-view surface normal maps.
 ### Quick Start
 Code was tested on Ubuntu 18.04 (WSL2) using Python 3.8, PyTorch 2.1.0, and CUDA 11.8 on an Nvidia RTX4090Ti (24GB). 
 
-Before started, please ensure CUDA is installed in your environment ([11.8 can be found here](https://developer.nvidia.com/cuda-11-8-0-download-archive)).
+**Before started, please ensure CUDA is installed in your environment ([11.8 can be found here](https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local)).**
 It is required by [tiny-cuda-nn](https://github.com/NVlabs/tiny-cuda-nn).
 
-After cloning/downloading the repo, prepare the conda environment:
+<details><summary> You should see something like the following after typing `nvcc --version` </summary>
+
 ```commandline
-sh create_env.sh
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2022 NVIDIA Corporation
+Built on Wed_Sep_21_10:33:58_PDT_2022
+Cuda compilation tools, release 11.8, V11.8.89
+Build cuda_11.8.r11.8/compiler.31833905_0
+```
+</details>
+
+Clone the repository and prepare the conda environment:
+```commandline
+git clone https://github.com/CyberAgentAILab/SuperNormal.git
+cd SuperNormal
+. ./create_env.sh
 ```
 
 Download data (~1.8GB):
 ```commandline
-sh download_data.sh
+. ./download_data.sh
 ```
 
 Run on the DiLiGenT-MV benchmark objects or on our captured objects:
 ```commandline
-sh run_diligent.sh  # Training should take about 50 secs per object
+. ./run_diligent.sh  # Training should take about 50 seconds per object
 ```
 or 
 ```commandline
-sh run_own_object.sh  # Training should take about 5min per object
+. ./run_own_object.sh  # Training should take about 5 minutes per object
 ```
 Results are saved under `./exp`.
 

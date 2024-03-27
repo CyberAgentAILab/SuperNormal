@@ -1,7 +1,6 @@
 conda deactivate
 conda remove -y -n sn --all
 conda create -y -n sn python=3.8
-eval "$(conda shell.bash hook)"
 conda activate sn
 
 conda install -y pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
