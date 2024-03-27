@@ -48,16 +48,16 @@ cd SuperNormal
 
 Download data (~1.8GB):
 ```commandline
-. ./download_data.sh
+./download_data.sh
 ```
 
 Run on the DiLiGenT-MV benchmark objects or on our captured objects:
 ```commandline
-. ./run_diligent.sh  # Training should take about 50 seconds per object
+./run_diligent.sh  # Training should take about 50 seconds per object
 ```
 or 
 ```commandline
-. ./run_own_object.sh  # Training should take about 5 minutes per object
+./run_own_object.sh  # Training should take about 5 minutes per object
 ```
 Results are saved under `./exp`.
 
