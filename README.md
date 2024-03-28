@@ -61,6 +61,11 @@ or
 ```
 Results are saved under `./exp`.
 
+NOTE: If RuntimeError like below occurs, `apt install ninja-build` may resolve the error.
+```
+RuntimeError: Ninja is required to load C++ extensions
+```
+
 ### Hyperparameter tuning tips
 Training hyperparameters are defined in `./configs/*.conf`.
 Some important hyperparameters are:
