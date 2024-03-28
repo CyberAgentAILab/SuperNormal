@@ -43,7 +43,7 @@ Clone the repository and prepare the conda environment:
 ```commandline
 git clone https://github.com/CyberAgentAILab/SuperNormal.git
 cd SuperNormal
-. ./create_env.sh
+./create_env.sh
 ```
 
 Download data (~1.8GB):
@@ -60,6 +60,11 @@ or
 ./run_own_object.sh  # Training should take about 5 minutes per object
 ```
 Results are saved under `./exp`.
+
+NOTE: If RuntimeError like below occurs, `apt install ninja-build` may resolve the error.
+```
+RuntimeError: Ninja is required to load C++ extensions
+```
 
 ### Hyperparameter tuning tips
 Training hyperparameters are defined in `./configs/*.conf`.
