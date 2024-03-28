@@ -43,7 +43,7 @@ Clone the repository and prepare the conda environment:
 ```commandline
 git clone https://github.com/CyberAgentAILab/SuperNormal.git
 cd SuperNormal
-. ./create_env.sh
+./create_env.sh
 ```
 
 Download data (~1.8GB):
