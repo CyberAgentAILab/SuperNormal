@@ -6,6 +6,14 @@ You can download our raw images using the following command *(~6 GB per object)*
 gdown 'https://drive.google.com/file/d/1BcCuZR0C-snmCNf8iGhkFgkQ6arfcQ-L/view?usp=sharing' --fuzzy
 unzip flower_girl.zip
 rm flower_girl.zip
+
+gdown 'https://drive.google.com/file/d/12QzgRbOjBSx295BS4zihnOjcdYh7ZaP9/view?usp=sharing' --fuzzy
+unzip lion.zip
+rm lion.zip
+
+gdown 'https://drive.google.com/file/d/1cvKbI5VvDhsuA4a06rYqqoAtQd8GtyeI/view?usp=sharing'  --fuzzy
+unzip dog.zip
+rm dog.zip
 ```
 
 ## File structure
@@ -105,7 +113,7 @@ The last step is to convert the camera parameters to the NeuS format.
 python metashape2neus.py --xml_path <path/to/obj_folder/cameras.xml>
 ```
 This will create a `cameras_sphere.npz` file in the same folder as `cameras.xml`.
-We also provide the converter to NeuS2 format. Check `metashape_to_neus2_json_and_images.py` for more details.
+We also provide the converter to NeuS2 format. Check `metashape2neus2_json_and_images.py` for more details.
 
 ## Tips for capturing your own data
 We used the iPhone's built-in camera app to take the images. Here are some tips for successful reconstruction:
