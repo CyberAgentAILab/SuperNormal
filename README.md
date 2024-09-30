@@ -22,6 +22,9 @@ CyberAgent </h4>
 Fast and fine-grained 3D reconstruction from multi-view surface normal maps. 
 </div>
 
+### Update
+- 2024/09/30: Real-world raw data and step-by-step data pre-processing instructions are available. See [here](./data_capture_and_preprocessing/README.md).
+
 ### Quick Start
 Code was tested on Ubuntu 18.04 (WSL2) using Python 3.8, PyTorch 2.1.0, and CUDA 11.8 on an Nvidia RTX4090Ti (24GB). 
 
