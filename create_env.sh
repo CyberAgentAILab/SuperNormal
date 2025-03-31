@@ -3,7 +3,7 @@ conda remove -y -n sn --all
 conda create -y -n sn python=3.8
 conda activate sn
 
-conda install -y pytorch==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
 
 # install tiny-cuda-nn
 export PATH="/usr/local/cuda/bin:$PATH"

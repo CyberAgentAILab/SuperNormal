@@ -8,6 +8,7 @@ from icecream import ic
 import pyexr
 import open3d as o3d
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 
 def load_K_Rt_from_P(filename, P=None):
@@ -19,20 +20,18 @@ def load_K_Rt_from_P(filename, P=None):
         lines = [[x[0], x[1], x[2], x[3]] for x in (x.split(" ") for x in lines)]
         P = np.asarray(lines).astype(np.float32).squeeze()
 
-    out = cv.decomposeProjectionMatrix(P)
-    K = out[0]
-    R = out[1]
-    t = out[2]
-
+    K, R, t, *_ = cv.decomposeProjectionMatrix(P)
+    # CAUTION: R is the W2C rotation matrix but t is the camera position in world coordinate.
     K = K / K[2, 2]
+
     intrinsics = np.eye(4)
     intrinsics[:3, :3] = K
 
-    pose = np.eye(4, dtype=np.float32)
-    pose[:3, :3] = R.transpose()
-    pose[:3, 3] = (t[:3] / t[3])[:, 0]
+    C2W = np.eye(4, dtype=np.float32)
+    C2W[:3, :3] = R.T
+    C2W[:3, 3] = (t[:3] / t[3])[:, 0]
 
-    return intrinsics, pose  # pose is world2camera
+    return intrinsics, C2W
 
 
 class Dataset:
@@ -65,7 +64,11 @@ class Dataset:
         self.img_idx_list = [int(os.path.basename(x).split('.')[0]) for x in self.normal_lis]
 
         print("loading normal maps...")
-        self.normal_np = np.stack([pyexr.read(im_name)[..., :3] for im_name in self.normal_lis])
+        with ThreadPoolExecutor(max_workers=min(64, os.cpu_count()*5)) as executor:
+            def read_normal(im_name):
+                return pyexr.read(im_name)[..., :3]
+            self.normal_np = np.stack(list(executor.map(read_normal, self.normal_lis)))
+
         if self.upsample_factor > 1:
             # resize normal maps
             self.normal_np = F.interpolate(torch.from_numpy(self.normal_np).permute(0, 3, 1, 2), scale_factor=self.upsample_factor, mode='bilinear', align_corners=False).permute(0, 2, 3, 1).numpy()
@@ -73,7 +76,10 @@ class Dataset:
         print("loading normal maps done.")
 
         self.masks_lis = sorted(glob(os.path.join(self.data_dir, 'mask/*.png')))
-        self.masks_np = np.stack([cv.imread(im_name) for im_name in self.masks_lis]) / 255.0
+        with ThreadPoolExecutor(max_workers=min(64, os.cpu_count()*5)) as executor:
+            def read_mask(im_name):
+                return cv.imread(im_name)
+            self.masks_np = np.stack(list(executor.map(read_mask, self.masks_lis))) / 255.0
 
         if self.upsample_factor > 1:
             # resize mask
@@ -99,7 +105,7 @@ class Dataset:
         for scale_mat, world_mat, normal_map, mask in zip(self.scale_mats_np, self.world_mats_np, self.normals, self.masks_np):
             P = world_mat @ scale_mat
             P = P[:3, :4]
-            intrinsics, pose = load_K_Rt_from_P(None, P)
+            intrinsics, C2W = load_K_Rt_from_P(None, P)
             if self.upsample_factor > 1:
                 # resize intrinsics
                 intrinsics[0, 0] *= self.upsample_factor
@@ -107,10 +113,10 @@ class Dataset:
                 intrinsics[0, 2] *= self.upsample_factor
                 intrinsics[1, 2] *= self.upsample_factor
             self.intrinsics_all.append(torch.from_numpy(intrinsics).float())
-            self.pose_all.append(torch.from_numpy(pose).float())
+            self.pose_all.append(torch.from_numpy(C2W).float())
 
             intrinsics_inverse = torch.inverse(torch.from_numpy(intrinsics).float())
-            pose = torch.from_numpy(pose).float()
+            pose = torch.from_numpy(C2W).float()
             # compute the V_inverse
             tx = torch.linspace(0, self.W - 1, int(self.W))
             ty = torch.linspace(0, self.H - 1, int(self.H))
