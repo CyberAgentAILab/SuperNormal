@@ -50,7 +50,7 @@ cd SuperNormal
 . ./create_env.sh
 ```
 
-Download data (~1.8GB):
+Download data (~1.8GB, hosted on [Hugging Face](https://huggingface.co/datasets/cyberagent/SuperNormal)):
 ```commandline
 ./download_data.sh
 ```

@@ -1,17 +1,19 @@
 
 This is a step-by-step guide to preprocess the raw images captured by an iPhone for the MVPS task.
-You can download our raw images using the following command *(~6 GB per object)*.
+You can download our raw images from [Hugging Face](https://huggingface.co/datasets/cyberagent/SuperNormal) using the following command *(~5.5 GB per object)*.
 
 ```
-gdown 'https://drive.google.com/file/d/1BcCuZR0C-snmCNf8iGhkFgkQ6arfcQ-L/view?usp=sharing' --fuzzy
+pip install -U huggingface_hub
+
+hf download cyberagent/SuperNormal flower_girl.zip --repo-type dataset --local-dir .
 unzip flower_girl.zip
 rm flower_girl.zip
 
-gdown 'https://drive.google.com/file/d/12QzgRbOjBSx295BS4zihnOjcdYh7ZaP9/view?usp=sharing' --fuzzy
+hf download cyberagent/SuperNormal lion.zip --repo-type dataset --local-dir .
 unzip lion.zip
 rm lion.zip
 
-gdown 'https://drive.google.com/file/d/1cvKbI5VvDhsuA4a06rYqqoAtQd8GtyeI/view?usp=sharing'  --fuzzy
+hf download cyberagent/SuperNormal dog.zip --repo-type dataset --local-dir .
 unzip dog.zip
 rm dog.zip
 ```
